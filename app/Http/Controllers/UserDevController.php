@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Doubt;
+use App\Models\UserDev;
 use Illuminate\Http\Request;
 
-class DoubtController extends BaseController
+class UserDevController extends BaseController
 {
     public function __construct()
     {
-        $this->class = Doubt::class;
+        $this->class = UserDev::class;
     }
 
     public function update(int $id, Request $request)

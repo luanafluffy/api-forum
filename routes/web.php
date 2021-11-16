@@ -11,14 +11,14 @@ $router->group(['prefix' => 'api'], function () use ($router) {
 
     //api/user
     $router->group(['prefix' => 'user'], function () use ($router) {
-        $router->post('', 'UserController@store');
-        $router->get('', 'UserController@index');
+        $router->post('', 'UserDevController@store');
+        $router->get('', 'UserDevController@index');
 
         //api/user/:id
         $router->group(['prefix' => '{id}'], function () use ($router) {
-            $router->get('', 'UserController@show');
-            $router->put('', 'UserController@update');
-            $router->delete('', 'UserController@destroy');
+            $router->get('', 'UserDevController@show');
+            $router->patch('', 'UserDevController@update');
+            $router->delete('', 'UserDevController@destroy');
         });
     });
 
@@ -36,7 +36,7 @@ $router->group(['prefix' => 'api'], function () use ($router) {
             //api/doubt/:idDoubt/answer
             $router->group(['prefix' => 'answer'], function () use ($router) {
                 $router->post('', 'AnswerController@store');
-                $router->get('', 'AnswerController@showByDoubt');
+                $router->get('/details', 'DetailsController@show');
             });
         });
 

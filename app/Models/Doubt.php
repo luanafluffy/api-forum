@@ -11,6 +11,11 @@ class Doubt extends Model
 
     public function answers()
     {
-        return $this->hasMany(Answer::class);
+        return $this->hasMany(Answer::class, 'pergunta_id');
+    }
+
+    public function user()
+    {
+        return $this->hasOne(UserDev::class);
     }
 }
