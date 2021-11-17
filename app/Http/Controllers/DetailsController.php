@@ -17,14 +17,13 @@ class DetailsController extends BaseController
             ], 404);
         }
 
-        $answer = Doubt::find($id)->answers;
-
-        $countAnswer = $answer ? count($answer) : 0;
+        $answer = Answer::query()
+            ->where('pergunta_id', $id)
+            ->paginate();
 
         $data = [
             'duvida' => $doubt,
-            'respostas' => $answer,
-            'qtde_respostas' => $countAnswer
+            'respostas' => $answer
         ];
 
         return response()->json($data, 200);
