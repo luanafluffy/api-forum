@@ -47,7 +47,7 @@ $router->group(['prefix' => 'api', 'middleware' => 'autenticador'], function () 
     });
 });
 
-$router->group(['prefix' => '/api'], function () use ($router) {
-    $router->post('/login', 'TokenController@generatorToken');
-    $router->post('/register', 'UserController@store');
+$router->group(['prefix' => 'api'], function () use ($router) {
+    $router->post('login', 'TokenController@generatorToken');
+    $router->post('register', 'UserController@store');
 });

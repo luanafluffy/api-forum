@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Doubt;
 use App\Models\User;
 use Firebase\JWT\JWT;
 use Illuminate\Http\Request;

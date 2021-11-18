@@ -12,7 +12,7 @@ class Authenticate
     public function handle(Request $request, Closure $next)
     {
         try {
-            if ($request->hasHeader('Authorization')) {
+            if (!$request->hasHeader('Authorization')) {
                 throw new \Exception();
             }
             $authorizationHeader = $request->header('Authorization');
