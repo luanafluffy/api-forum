@@ -7,18 +7,17 @@ $router->get('/', function () use ($router) {
     return $router->app->version();
 });
 
-$router->group(['prefix' => 'api'], function () use ($router) {
+$router->group(['prefix' => 'api', 'middleware' => 'autenticador'], function () use ($router) {
 
     //api/user
     $router->group(['prefix' => 'user'], function () use ($router) {
-        $router->post('', 'UserDevController@store');
-        $router->get('', 'UserDevController@index');
+        $router->get('', 'UserController@index');
 
         //api/user/:id
         $router->group(['prefix' => '{id}'], function () use ($router) {
-            $router->get('', 'UserDevController@show');
-            $router->patch('', 'UserDevController@update');
-            $router->delete('', 'UserDevController@destroy');
+            $router->get('', 'UserController@show');
+            $router->patch('', 'UserController@update');
+            $router->delete('', 'UserController@destroy');
         });
     });
 
@@ -46,4 +45,9 @@ $router->group(['prefix' => 'api'], function () use ($router) {
             $router->delete('', 'AnswerController@destroy');
         });
     });
+});
+
+$router->group(['prefix' => '/api'], function () use ($router) {
+    $router->post('/login', 'TokenController@generatorToken');
+    $router->post('/register', 'UserController@store');
 });

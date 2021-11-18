@@ -2,43 +2,31 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\User;
 use Closure;
-use Illuminate\Contracts\Auth\Factory as Auth;
+use Firebase\JWT\JWT;
+use Illuminate\Http\Request;
 
 class Authenticate
 {
-    /**
-     * The authentication guard factory instance.
-     *
-     * @var \Illuminate\Contracts\Auth\Factory
-     */
-    protected $auth;
-
-    /**
-     * Create a new middleware instance.
-     *
-     * @param  \Illuminate\Contracts\Auth\Factory  $auth
-     * @return void
-     */
-    public function __construct(Auth $auth)
+    public function handle(Request $request, Closure $next)
     {
-        $this->auth = $auth;
-    }
+        try {
+            if ($request->hasHeader('Authorization')) {
+                throw new \Exception();
+            }
+            $authorizationHeader = $request->header('Authorization');
+            $token = str_replace('Bearer ', '', $authorizationHeader);
+            $dataAuthentication = JWT::decode($token, env('JWT_KEY'), ['HS256']);
 
-    /**
-     * Handle an incoming request.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
-     * @param  string|null  $guard
-     * @return mixed
-     */
-    public function handle($request, Closure $next, $guard = null)
-    {
-        if ($this->auth->guard($guard)->guest()) {
-            return response('Unauthorized.', 401);
+            $user = User::where('email', $dataAuthentication->email)->first();
+
+            if (is_null($user)) {
+                throw new \Exception();
+            }
+            return $next($request);
+        } catch (\Exception $e) {
+            return response()->json('Não autorizado', 401);
         }
-
-        return $next($request);
     }
 }

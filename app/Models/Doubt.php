@@ -18,7 +18,7 @@ class Doubt extends Model
 
     public function user()
     {
-        return $this->hasOne(UserDev::class);
+        return $this->hasOne(User::class);
     }
 
     public function getLinksAttribute(): array
